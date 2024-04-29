@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [AdminController::class, 'index'])->name('/');
+Route::get('/carrito', [AdminController::class, 'carrito'])->name('carrito');
+Route::any('/{category_products}', [AdminController::class, 'getCategoryProducts'])->name('getCategoryProducts');
+
+
+
+
+Route::post('get_products', [AdminController::class, 'getProducts'])->name('get_products');
