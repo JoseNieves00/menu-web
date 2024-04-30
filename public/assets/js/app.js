@@ -1,12 +1,76 @@
 const boxes = document.querySelectorAll('.box');
 const slider = document.querySelector('.slider');
-function goHome(){
-    console.log("hola")
-    // location.href = "/"
+const carrito = document.querySelector('.carrito-cont');
+const contenedor = document.querySelector('.contenedor');
+const footer_carrito = document.querySelector('.footer-carrito');
+const sizeButtons = document.querySelectorAll('.size button');
+const precio_size = document.querySelectorAll(".precio-box .price_size")
+
+
+$(carrito).hide()
+
+function limpiarPrecios(){
+    precio_size.forEach(precio => {
+        precio.innerHTML = "Selecciona Un Tamaño";
+    });
 }
 
-function goCarrito(){
-    location.href = "/carrito"
+sizeButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        cleanButton()
+    });
+});
+
+function cleanButton() {
+    sizeButtons.forEach(buttons => {
+        buttons.className = "size-button"
+})
+}
+
+slider.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    isDragging = true;
+});
+slider.addEventListener('touchmove', (e) => {
+    if (isDragging) {
+        const currentX = e.touches[0].clientX;
+        const diffX = startX - currentX;
+        if ((diffX > 12) || (diffX < -12)) {
+            if (diffX > 12) {
+                nextSlide();
+            } else if (diffX < 12) {
+                prevSlide();
+            }
+        }
+        isDragging = false;
+    }
+});
+slider.addEventListener('touchend', () => {
+    isDragging = false;
+});
+
+let pedido = {
+    productos: [], // Aquí se almacenarán los productos agregados al pedido
+    total: 0,// Aquí se almacenará el total del pedido
+    totalProductos: 0,
+};
+
+function showCarrito(){
+    $('.salir-carrito').show()
+    $('.carrito').hide()
+    $(contenedor).hide()
+    $(carrito).show()
+
+    if(pedido.totalProductos==0){
+        $(footer_carrito).hide()
+    }
+}
+
+function hideCarrito(){
+    $('.salir-carrito').hide()
+    $('.carrito').show()
+    $(contenedor).show()
+    $(carrito).hide()
 }
 
 function getProducts(){
@@ -27,16 +91,24 @@ function getProducts(){
     let startX = 0;
     let isDragging = false;
 
-        function nextSlide() {
+    function nextSlide() {
         currentIndex = (currentIndex + 1) % boxes.length;
         showSlide(currentIndex);
-        // cleanButton();
+        limpiarPrecios()
+        cleanButton()
     }
 
     function prevSlide() {
         currentIndex = (currentIndex - 1 + boxes.length) % boxes.length;
         showSlide(currentIndex);
-        // cleanButton();
+        limpiarPrecios()
+        cleanButton()    
+    }
+
+    function scrollUp(){
+        window.scrollTo({
+            top: 0, behavior:'smooth'
+        });
     }
 
     function rotatePizza(index) {
@@ -49,10 +121,16 @@ function getProducts(){
         });
     }
 
-        function showSlide(index) {
+    function showSlide(index) {
         slider.style.transform = `translateX(-${index * 100}%)`;
         rotatePizza(index);
+        scrollUp()
         // limpiarPrecios();
+    }
+
+    function assignPrice(precio) {
+        let precio_box = document.querySelectorAll(".precio-box .precio");
+        precio_box.innerHTML = precio;
     }
 
 

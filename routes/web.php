@@ -15,7 +15,6 @@ use App\Http\Controllers\AdminController;
 */
 
 Route::get('/', [AdminController::class, 'index'])->name('/');
-Route::get('/carrito', [AdminController::class, 'carrito'])->name('carrito');
 Route::any('/{category_products}', [AdminController::class, 'getCategoryProducts'])->name('getCategoryProducts');
 
 

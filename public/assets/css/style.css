@@ -307,6 +307,7 @@ transition: 0.2s;
 }
 
 .box .buttons .size{
+    gap: 10px;
     display: flex;
     align-items: center;
     justify-content: space-around;

@@ -33,9 +33,11 @@
         $('.salir-carrito').hide()
 
         $('.carrito').click(function(){
-            $('.salir-carrito').show()
-            $('.carrito').hide()
-            goCarrito()
+            showCarrito()
+        })
+
+        $('.salir-carrito').click(function(){
+            hideCarrito()
         })
     </script>
 @endsection

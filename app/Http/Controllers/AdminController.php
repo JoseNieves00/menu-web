@@ -12,7 +12,7 @@ use App\Models\Product;
 class AdminController extends Controller
 {
     public function index() {
-        $list_category = CategoryProduct::where('state', 1)->get();
+        $list_category = CategoryProduct::where('state', 1)->where('is_principal',1)->get();
         return view('index', compact(['list_category']));
     }
 
@@ -20,7 +20,7 @@ class AdminController extends Controller
         return view('carrito');
     }
 
-    public function getProducts(Request $request) {
+    public function getPrices(Request $request) {
         $error = true;
         dd($request);
         $message = '';

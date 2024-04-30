@@ -1,3 +1,12 @@
+<?php
+
+header("Access-Control_Allow_Origin: *");
+header("Access-Control-Allow-Credentials: true");
+header("Content-type:application/json;charset=utf-8"); 
+header("Access-Control-Allow-Methods: GET");
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,10 +31,30 @@
     <header>
         @yield('header')
     </header>
+
+    <div class="carrito-cont">
+        <h2>Carrito de compras</h2>
+        <div class="productos-cont">
+            <p class='text-red'>No hay Productos Agregados Al carrito</p>
+        </div>
+        <div class="footer-carrito">
+            <div class="total-cont">
+                <p class="subtotal-carrito"></p>
+            </div>
+
+            <div class="btn-cont">
+                <button class="btn-finalizar">Finalizar Pedido</button>
+            </div>
+        </div>
+    </div>
     
     <div class="contenedor">        
         @yield('content')
     </div>
+
+    <footer class="d-flex justify-content-center mt-2">
+        <p class="text-footer" style="color: lightgray; font-size:14px">© Pizza Station - 2024</p>
+    </footer>
 
 
     <script

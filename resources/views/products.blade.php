@@ -4,8 +4,8 @@
 @endsection
 @section('content')
 <div class="slider-container">
-
-    <h2>Desliza y escoge la que mas te guste!</h2>
+    @csrf
+    <h2>Desliza y escoge lo que mas te guste!</h2>
 
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
@@ -18,15 +18,23 @@
                         <p>{{$item->description}}</p>
                     </div>
                     <div class="buttons">
-                        {{-- <div class="size">
-                            <button class="size-button size-s">S</button>
-                            <button class="size-button size-m">M</button>
-                            <button class="size-button size-l">L</button>
-                            <button class="size-button size-xl">XL</button>
-                        </div> --}}
-                        <div class="precio-box">
-                            <p class="precio p1">${{number_format($item->price,0,'.','.')}}</p>
+                        @if ($item->has_size==1)
+                            <div class="size">
+                                <button class="size-button size-s" value={{$item->price_xs}}>XS</button>
+                                <button class="size-button size-m" value={{$item->price_s}}>S</button>
+                                <button class="size-button size-l" value={{$item->price_m}}>M</button>
+                                <button class="size-button size-xl" value={{$item->price_l}}>L</button>
+                                <button class="size-button size-xl" value={{$item->price_xl}}>XL</button>
+                            </div>
+
+                            <div class="precio-box">
+                                <p class="precio price_size">Seleccione un tamaño</p>
+                            </div>
+                        @else
+                        <div class="precio-box wprice_size">
+                            <p class="precio_size precio">${{number_format($item->price,0,'.','.')}}</p>
                         </div>
+                        @endif
                         <button class="button-agregar">Agregar al Carrito <i class="gg-shopping-cart"></i></button>
                     </div>
                 </div>
@@ -35,9 +43,9 @@
         </div>
     </div>
     <div class="controls">
-        <button class="prev"><i class="gg-arrow-left-r" onclick="prevSlide()"></i></button>
+        <button class="prev" onclick="prevSlide()"><i class="gg-arrow-left-r"></i></button>
 
-        <button class="next"><i class="gg-arrow-right-r" onclick="nextSlide()"></i></button>
+        <button class="next" onclick="nextSlide()"><i class="gg-arrow-right-r"></i></button>
     </div>
                     {{-- <div class="box">
                     <div class="pizza pizza2"></div>
@@ -82,12 +90,30 @@
 @endsection
 @section('scripts')
     <script>
-                $('.salir-carrito').hide()
 
-$('.carrito').click(function(){
-    $('.salir-carrito').show()
-    $('.carrito').hide()
-    goCarrito()
-})
+
+        $('.salir-carrito').hide()
+
+        $('.carrito').click(function(){
+            showCarrito()
+        })
+
+        if($('.size').css("display")=="block"){
+            $('.wprice_size').hide()
+        }
+
+        $('.size-button').click(function(){
+            this.className = "size-button-active"
+            let precio = this.value
+            let price_format = new Intl.NumberFormat('de-DE').format(precio)
+            let tamaño = this.textContent
+            $('.price_size').html('$'+price_format);
+        })
+
+        
+        
+        $('.salir-carrito').click(function(){
+            hideCarrito()
+        })
     </script>
 @endsection
