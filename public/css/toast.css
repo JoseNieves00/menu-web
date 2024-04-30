@@ -1,0 +1,103 @@
+.toastjs-container {
+	position: absolute; /* Fallback */
+	position: fixed;
+	top: 80px;
+	right: 30px;
+	max-width: 400px;
+	transform: translateX(150%);
+	transition: transform 0.5s;
+
+	z-index: 2000; /* */
+}
+
+.toastjs-container[aria-hidden="false"] {
+	transform: translateX(0%);
+}
+
+.toastjs {
+	display: flex;
+	background: #fff;
+	padding: 10px 15px 0; /* No bottom padding because the buttons have a margin-bottom */
+	border-left-style: solid;
+	border-left-width: 5px;
+	border-radius: 4px;
+	box-shadow: 0 2px 5px 0 rgba(0,0,0,0.2);
+}
+
+.toastjs.default {
+	border-left-color: #AAAAAA;
+}
+
+.toastjs.success {
+	background: #2ECC40;
+	color: #fff;
+	border-left-color: #2ECC40;
+}
+.toastjs.warning {
+	background: #FF851B;
+	color: #fff;
+	border-left-color: #FF851B;
+}
+.toastjs.danger {
+	background: #FF4136;
+	color: #fff;
+	border-left-color: #FF4136;
+}
+
+.toastjs.default svg {
+	width: 24px;
+	height: 24px;
+}
+
+.toastjs.success svg {
+	width: 24px;
+	height: 24px;
+}
+
+.toastjs.warning svg {
+	width: 24px;
+	height: 24px;
+}
+
+.toastjs.danger svg {
+	width: 24px;
+	height: 24px;
+}
+
+.toastjs-btn {
+	background: rgb(240,240,240);
+	padding: 5px 10px;
+	border: 0;
+	border-radius: 50%;
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 14px;
+	display: inline-block;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	cursor: pointer;
+	height: 26px;
+	width: 26px;
+}
+
+.toastjs-btn--custom {
+	background: rgb(50,50,50);
+	color: #fff;
+}
+
+
+.toastjs-btn:hover,
+.toastjs-btn:focus {
+	outline: none;
+	box-shadow: 0 2px 5px 0 rgba(0,0,0,0.2);
+}
+
+.icon-close{
+	width: 20px;
+	height: 20px;
+	color: #fff;
+}
+
+
+
+
+
