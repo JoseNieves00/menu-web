@@ -15,6 +15,8 @@ $(finalizar_cont).hide()
 
 $(carrito).hide()
 
+actualizarNProductos()
+
 function limpiarPrecios(){
     precio_size.forEach(precio => {
         precio.innerHTML = "Selecciona Un Tamaño";
@@ -33,27 +35,27 @@ function cleanButton() {
 })
 }
 
-slider.addEventListener('touchstart', (e) => {
-    startX = e.touches[0].clientX;
-    isDragging = true;
-});
-slider.addEventListener('touchmove', (e) => {
-    if (isDragging) {
-        const currentX = e.touches[0].clientX;
-        const diffX = startX - currentX;
-        if ((diffX > 12) || (diffX < -12)) {
-            if (diffX > 12) {
-                nextSlide();
-            } else if (diffX < 12) {
-                prevSlide();
-            }
-        }
-        isDragging = false;
-    }
-});
-slider.addEventListener('touchend', () => {
-    isDragging = false;
-});
+// slider.addEventListener('touchstart', (e) => {
+//     startX = e.touches[0].clientX;
+//     isDragging = true;
+// });
+// slider.addEventListener('touchmove', (e) => {
+//     if (isDragging) {
+//         const currentX = e.touches[0].clientX;
+//         const diffX = startX - currentX;
+//         if ((diffX > 12) || (diffX < -12)) {
+//             if (diffX > 12) {
+//                 nextSlide();
+//             } else if (diffX < 12) {
+//                 prevSlide();
+//             }
+//         }
+//         isDragging = false;
+//     }
+// });
+// slider.addEventListener('touchend', () => {
+//     isDragging = false;
+// });
 
 let pedido = {
     productos: [], // Aquí se almacenarán los productos agregados al pedido
@@ -66,11 +68,6 @@ function showCarrito(){
     $('.carrito').hide()
     $(contenedor).hide()
     $(carrito).show()
-
-    if(pedido.totalProductos==0){
-        $(footer_carrito).hide()
-    }
-
     mostrarPedido()
 }
 
@@ -210,111 +207,130 @@ function getProducts(){
                 // Botones de incremento y decremento
             }
         }
+        let id_product=0;
 
         function confirmar(precio, cantidad, nombre, tamaño) {
-
-
-                Swal.fire({
-                    icon: "success",
-                    title: "Agregado!",
-                    text: "Producto Agregado Al Carrito",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
+            Swal.fire({
+                icon: "success",
+                title: "Agregado!",
+                text: "Producto Agregado Al Carrito",
+                showConfirmButton: false,
+                timer: 1500
+            });
         
-                let totalProducto = precio * cantidad
-                // Verificar si ya hay una pizza con el mismo nombre y tamaño en el pedido
-                if(tamaño){
-                    let productoExistente = pedido.productos.findIndex(producto => producto.name === nombre && producto.size === tamaño);
-                    if (productoExistente !== -1) {
-                        pedido.productos[productoExistente].cantidad+=parseInt(cantidad);
-                        pedido.productos[productoExistente].precio += parseInt(precio);
-                    } else {
-                        pedido.productos.push({ name: nombre, size: tamaño, cantidad: parseInt(cantidad), precio: parseInt(precio) });
-                        pedido.totalProductos += 1
-                        actualizarNProductos()
-                    }
-
-                    console.log("Producto agregado al pedido:", nombre, "Tamaño:", tamaño, "Cantidad:", cantidad);
+            let totalProducto = precio * cantidad;
+            actualizarNProductos();
+            // Verificar si ya hay una pizza con el mismo nombre y tamaño en el pedido
+            if(tamaño){
+                let productoExistente = pedido.productos.findIndex(producto => producto.name === nombre && producto.size === tamaño);
+                if (productoExistente !== -1) {
+                    pedido.productos[productoExistente].cantidad += parseInt(cantidad);
+                    pedido.productos[productoExistente].precio += parseInt(precio);
                 } else {
-                    let productoExistente = pedido.productos.findIndex(producto => producto.name === nombre);
-                    if (productoExistente !== -1) {
-                        pedido.productos[productoExistente].cantidad+=parseInt(cantidad);
-                        pedido.productos[productoExistente].precio += parseInt(precio);
-                    } else {
-                        pedido.productos.push({ name: nombre, cantidad: parseInt(cantidad), precio: parseInt(precio) });
-                        pedido.totalProductos += 1
-                        actualizarNProductos()
-                    }
-                    console.log("Producto agregado al pedido:", nombre, "Cantidad:", cantidad);
+                    id_product+=1;
+                    pedido.productos.push({ id:id_product,name: nombre, size: tamaño, cantidad: parseInt(cantidad), precio: parseInt(precio) });
+                    pedido.totalProductos += 1;
                 }
-                pedido.total += totalProducto
-        
-        
-                console.log("Total del pedido:", pedido.total);
-                console.log("Total productos:", pedido.totalProductos);
+                console.log("Producto agregado al pedido:", nombre, "Tamaño:", tamaño, "Cantidad:", cantidad);
+            } else {
+                let productoExistente = pedido.productos.findIndex(producto => producto.name === nombre);
+                if (productoExistente !== -1) {
+                    pedido.productos[productoExistente].cantidad += parseInt(cantidad);
+                    pedido.productos[productoExistente].precio += parseInt(precio);
+                } else {
+                    id_product+=1;
+                    pedido.productos.push({ id:id_product,name: nombre, cantidad: parseInt(cantidad), precio: parseInt(precio) });
+                    pedido.totalProductos += 1;
+                }
+                console.log("Producto agregado al pedido:", nombre, "Cantidad:", cantidad);
             }
+            pedido.total += totalProducto;
+        
+            // Actualizar el localStorage con el pedido modificado
+            localStorage.setItem('pedido', JSON.stringify(pedido));
+        
+            console.log("Total del pedido:", pedido.total);
+            console.log("Total productos:", pedido.totalProductos); 
+            setTimeout(() => {
+                location.href = `/`;
+            }, "1000");
+        }
+        
 
     function actualizarNProductos() {
-        if (pedido.totalProductos > 0) {
-            totalProductos.style.display = "flex"
-            totalProductos.textContent = pedido.totalProductos
+        const pedidoString = localStorage.getItem('pedido');
+        const pedido = JSON.parse(pedidoString)
+        if(pedido){
+            if(pedido.totalProductos!=0){
+                console.log(pedido.totalProductos)
+                totalProductos.style.display = "flex"
+                totalProductos.textContent = pedido.totalProductos
+            } else {
+                totalProductos.style.display = "none"
+            }
         } else {
             totalProductos.style.display = "none"
         }
     }
 
     function mostrarPedido() {
-            console.log(pedido)
-            limpiarPrecios()
-            cleanButton()
-    
-            productos_cont = carrito_cont.querySelector(".productos-cont")
-            productos_cont.innerHTML = "";
-    
-            if (pedido.productos != "") {
-                productos_cont.innerHTML = ""
-                footer_carrito.style.display = "flex"
+        // Recuperar el objeto pedido del localStorage
+        const pedidoString = localStorage.getItem('pedido');
+        const pedido = JSON.parse(pedidoString);
+        console.log(pedido);
+        if (pedidoString) {
+            if(pedido.totalProductos!=0){
+                carrito_cont.querySelector(".text-red").style.display="none"
+                carrito_cont.querySelector(".productos-cont").style.display="flex"
+                console.log(pedido);
+                limpiarPrecios();
+                cleanButton();
+        
+                productos_cont = carrito_cont.querySelector(".productos-cont");
+                productos_cont.innerHTML = "";
+        
+                productos_cont.innerHTML = "";
+                footer_carrito.style.display = "flex";
                 pedido.productos.forEach(productos => {
-                    console.log(productos)
-                    const box_produdct = document.createElement('div')
-                    box_produdct.className = "box-product"
-                    productos_cont.appendChild(box_produdct)
+                    console.log(productos);
+                    const box_produdct = document.createElement('div');
+                    box_produdct.className = "box-product";
+                    productos_cont.appendChild(box_produdct);
     
-                    const product_details = document.createElement('div')
-                    product_details.className = "product-details"
-                    box_produdct.appendChild(product_details)
+                    const product_details = document.createElement('div');
+                    product_details.className = "product-details";
+                    box_produdct.appendChild(product_details);
     
-                    const product_info = document.createElement('div')
-                    product_info.className = "product-info"
-                    product_details.appendChild(product_info)
+                    const product_info = document.createElement('div');
+                    product_info.className = "product-info";
+                    product_details.appendChild(product_info);
     
-                    const name_product = document.createElement('p')
-                    name_product.textContent = `${productos.cantidad}X ${productos.name} ${productos.size==undefined ? '' : productos.size}`
-                    name_product.className = "product-name m-0"
-                    product_info.appendChild(name_product)
+                    const name_product = document.createElement('p');
+                    name_product.textContent = `${productos.cantidad}X ${productos.name} ${productos.size == undefined ? '' : productos.size}`;
+                    name_product.className = "product-name m-0";
+                    product_info.appendChild(name_product);
     
-                    const product_price = document.createElement('div')
-                    product_info.appendChild(product_price)
+                    const product_price = document.createElement('div');
+                    product_info.appendChild(product_price);
     
                     const price_product = document.createElement('p');
-                    price_product.className = "product-price m-0"
-                    let precioFormat = new Intl.NumberFormat('de-DE').format(productos.precio)
+                    price_product.className = "product-price m-0";
+                    let precioFormat = new Intl.NumberFormat('de-DE').format(productos.precio);
                     price_product.textContent = `$${precioFormat}`;
                     product_price.appendChild(price_product);
     
-                    const product_btns = document.createElement('div')
-                    product_btns.className = "product-btns"
-                    product_details.appendChild(product_btns)
+                    const product_btns = document.createElement('div');
+                    product_btns.className = "product-btns";
+                    product_details.appendChild(product_btns);
     
-                    const btn_eliminar = document.createElement('button')
-                    btn_eliminar.className = "btn-eliminar"
-                    btn_eliminar.innerHTML = "<i class='gg-trash'></i>"
-                    product_btns.appendChild(btn_eliminar)
+                    const btn_eliminar = document.createElement('button');
+                    btn_eliminar.className = "btn-eliminar";
+                    btn_eliminar.innerHTML = "<i class='gg-trash'></i>";
+                    product_btns.appendChild(btn_eliminar);
     
                     product_btns.querySelector(".btn-eliminar").addEventListener("click", () => {
-                        const productName = productos.name;
-                        const productSize = productos.size;
+                        const productId = productos.id;
+    
     
                         Swal.fire({
                             title: "Estas Seguro De eliminar Este Producto?",
@@ -332,39 +348,51 @@ function getProducts(){
                                     showConfirmButton: false,
                                     timer: "1200"
                                 });
-                                elminarProducto(productName, productSize)
+                                eliminarProducto(productId);
                             }
                         });
+                    });
     
-                    })
-    
-                    const btn_finalizar = document.querySelector(".btn-finalizar")
-    
-
+                    const btn_finalizar = document.querySelector(".btn-finalizar");
     
                     btn_finalizar.addEventListener("click", () => {
-                        carrito_cont.style.display = "none"
-                        finalizar_cont.style.display = "flex"
-                    })
-    
+                        carrito_cont.style.display = "none";
+                        finalizar_cont.style.display = "flex";
+                    });
                 });
-                actualizarSubtotal()
+                actualizarSubtotal();
             } else {
-                productos_cont.innerHTML = "<p class='text-red'>No hay Productos Agregados Al carrito</p>"
-                footer_carrito.style.display = "none"
+                carrito_cont.querySelector(".text-red").style.display="block"
+                carrito_cont.querySelector(".productos-cont").style.display="none"
+                footer_carrito.style.display = "none";
+                console.log("No hay pedido en el localStorage.");
             }
+        } else {
+            carrito_cont.querySelector(".text-red").style.display="block"
+            carrito_cont.querySelector(".productos-cont").style.display="none"
+            footer_carrito.style.display = "none";
+            console.log("No hay pedido en el localStorage.");
+        }
     }
+    
 
     function actualizarSubtotal() {
+        const pedidoString = localStorage.getItem('pedido');
+        const pedido = JSON.parse(pedidoString);
         const text_subtotal = footer_carrito.querySelector('.subtotal-carrito');
-        console.log(text_subtotal)
         let totalFormat = new Intl.NumberFormat('de-DE').format(pedido.total)
         text_subtotal.innerHTML = `Subtotal:  &nbsp;<strong>$${totalFormat}</strong>`;
     }
 
-    function elminarProducto(productName, productSize) {
+    function eliminarProducto(productId) {
+        console.log(productId)
+        // Recuperar el objeto pedido del localStorage
+        const pedidoString = localStorage.getItem('pedido');
+        if (pedidoString) {
+            let pedido = JSON.parse(pedidoString);
+    
             // Encontrar el índice del producto en el pedido
-            const productIndex = pedido.productos.findIndex(producto => producto.name === productName && producto.size === productSize);
+            const productIndex = pedido.productos.findIndex(producto => producto.id === productId);
     
             if (productIndex !== -1) {
                 // Restar el precio del producto eliminado del total del pedido
@@ -372,24 +400,140 @@ function getProducts(){
                 // Eliminar el producto del pedido
                 pedido.productos.splice(productIndex, 1);
     
-                pedido.totalProductos -= 1
+                pedido.totalProductos -= 1;
+    
+                // Actualizar el localStorage con el pedido modificado
+                localStorage.setItem('pedido', JSON.stringify(pedido));
+    
                 // Mostrar nuevamente el pedido actualizado
                 mostrarPedido();
-                // Actualizar el subtotal del carrito en la interfaz de usuario
                 actualizarSubtotal();
-                actualizarNProductos()
+                actualizarNProductos();
+                setTimeout(() => {
+                    location.href = `/`;
+                }, "1000");
             }
+        }
     }
 
-      function enviarPedido(nombreCompleto, direccion, barrio, telefono, detalles,metodoPago) {
+    const btn_enviarPedido = document.querySelectorAll(".envio-pedido")
+    
+    const form_datosPedido = document.querySelector(".finalizar-cont form")
 
-        let pedidoMensaje="";
+    const text_transferencia = document.querySelector(".text-transf")
 
+    function datosUsuario(){
+        let nombre = form_datosPedido[0].value
+        let apellido = form_datosPedido[1].value
+
+        let nombreCompleto = `${nombre} ${apellido}`
+
+        let telefono = form_datosPedido[2].value
+
+        let direccion = form_datosPedido[3].value.toLowerCase()
+
+        let barrio = form_datosPedido[4].value.toLowerCase()
+
+        let detalles = form_datosPedido[5].value
+
+        let radio_metodoPago = document.getElementsByName("metodoPago")
+
+        let metodoPago;
+
+        
+
+        for (let i = 0; i < radio_metodoPago.length; i++) {
+            if (radio_metodoPago[i].checked) {
+                metodoPago = radio_metodoPago[i].value
+            }
+        }
+
+        if ((nombre == "") || (apellido == "") || (direccion == "") || (barrio == "") || (telefono == "")) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Ingrese todos los Campos!',
+                iconColor: "#fa2d1e",
+                confirmButtonColor: "#fa2d1e",
+                timer: 3000
+            });
+        } else {
+            if (telefono.length != 10) {
+                console.log(telefono.length)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Ingrese un Telefono Valido!',
+                    iconColor: "#fa2d1e",
+                    confirmButtonColor: "#fa2d1e",
+                    timer: 3000
+                });
+            } else {
+                if ((direccion.includes("cra")) || (direccion.includes("kr")) || (direccion.includes("k")) || (direccion.includes("calle")) || (direccion.includes("c")) || (direccion.includes("cll"))) {
+
+                    if (metodoPago != undefined) {
+                        // Seccion de Envio de datos despues de verificacion
+                        Swal.fire({
+                            title: "Estas Seguro de Enviar Tu pedido ?",
+                            text: "Verifica que los datos esten ingresados correctamente",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#fa2d1e",
+                            confirmButtonText: "Confirmar"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                if (metodoPago == "transferencia") {
+                                    Swal.fire({
+                                        text: "Para despachar su pedido primero debe enviar el comprobante de pago",
+                                        icon: "info",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+                                }
+                                enviarPedido(nombreCompleto, direccion,barrio, telefono, detalles,metodoPago)
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Escoja un Metodo de Pago',
+                            iconColor: "#fa2d1e",
+                            confirmButtonColor: "#fa2d1e",
+                            timer: 3000
+                        });
+                    }
+
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Ingrese una Direccion Valida!',
+                        iconColor: "#fa2d1e",
+                        confirmButtonColor: "#fa2d1e",
+                        timer: 3000
+                    });
+                    console.log(direccion)
+                }
+            }
+        }
+    }
+    
+
+    function enviarPedido(nombreCompleto, direccion, barrio, telefono, detalles, metodoPago) {
+        console.log(nombreCompleto, direccion, barrio, telefono, detalles, metodoPago);
+    
+        let pedidoMensaje = "";
+    
+        const pedidoString = localStorage.getItem('pedido');
+        const pedido = JSON.parse(pedidoString);
+    
         pedido.productos.forEach(productos => {
-            let precio_format = new Intl.NumberFormat('de-DE').format(productos.precio)
-            console.log(productos.size)
-            pedidoMensaje= pedidoMensaje + ` • ${productos.cantidad} x - ${productos.name.toUpperCase()} ${productos.size==undefined ? '' : productos.size.toUpperCase()} ($ ${precio_format})%0A`
+            let precio_format = new Intl.NumberFormat('de-DE').format(productos.precio);
+            console.log(productos.size);
+            pedidoMensaje = pedidoMensaje + ` • ${productos.cantidad} x - ${productos.name.toUpperCase()} ${productos.size == undefined ? '' : productos.size.toUpperCase()} ($ ${precio_format})%0A`;
         });
+    
         let direccionMensaje = "";
         let split = direccion.trim().split(' ');
         for (let i = 0; i < split.length; i++) {
@@ -399,33 +543,37 @@ function getProducts(){
                 direccionMensaje += `+${split[i]}`;
             }
         }
-
-        direccionMensaje=direccionMensaje.replace("#","%23")
-
-        let mensaje="";
-
+    
+        direccionMensaje = direccionMensaje.replace("#", "%23");
+    
+        let mensaje = "";
+    
         for (let x = 0; x < metodoPago.length; x++) {
-            if(x==0){
-                metodoPago[0]==metodoPago[x].toUpperCase()
+            if (x == 0) {
+                metodoPago[0] == metodoPago[x].toUpperCase();
             }
         }
-
-        console.log(metodoPago)
-
-        let totalFormat = new Intl.NumberFormat('de-DE').format(pedido.total)
-
-        if(detalles!=""){
-            mensaje = `*Pizza Station* %0A%0A*Nombre*: ${nombreCompleto} %0A%0A*Celular*: ${telefono} %0A%0A*Dirección*: "${direccionMensaje.toUpperCase()}"%0A%0A*Barrio*: "${barrio.toUpperCase()}"%0A%0A*Método de pago*: ${metodoPago.toUpperCase()} %0A%0A*Comentario*: ${detalles} %0A%0A*Pedido*: %0A%0A%20%20${pedidoMensaje} %0A*Total*: $ ${totalFormat} %0A%0A*Gracias por su pedido.*`
+    
+        console.log(metodoPago);
+    
+        let totalFormat = new Intl.NumberFormat('de-DE').format(pedido.total);
+    
+        if (detalles != "") {
+            mensaje = `*Pizza Station* %0A%0A*Nombre*: ${nombreCompleto} %0A%0A*Celular*: ${telefono} %0A%0A*Dirección*: "${direccionMensaje.toUpperCase()}"%0A%0A*Barrio*: "${barrio.toUpperCase()}"%0A%0A*Método de pago*: ${metodoPago.toUpperCase()} %0A%0A*Comentario*: ${detalles} %0A%0A*Pedido*: %0A%0A%20%20${pedidoMensaje} %0A*Total*: $ ${totalFormat} %0A%0A*Gracias por su pedido.*`;
         } else {
-            mensaje = `*Pizza Station* %0A%0A*Nombre*: ${nombreCompleto} %0A%0A*Celular*: ${telefono} %0A%0A*Dirección*: "${direccionMensaje.toUpperCase()}"%0A%0A*Barrio*: "${barrio.toUpperCase()}"%0A%0A*Método de pago*: ${metodoPago.toUpperCase()} %0A%0A*Pedido*: %0A%0A%20%20${pedidoMensaje} %0A*Total*: $ ${totalFormat} %0A%0A*Gracias por su pedido.*`
+            mensaje = `*Pizza Station* %0A%0A*Nombre*: ${nombreCompleto} %0A%0A*Celular*: ${telefono} %0A%0A*Dirección*: "${direccionMensaje.toUpperCase()}"%0A%0A*Barrio*: "${barrio.toUpperCase()}"%0A%0A*Método de pago*: ${metodoPago.toUpperCase()} %0A%0A*Pedido*: %0A%0A%20%20${pedidoMensaje} %0A*Total*: $ ${totalFormat} %0A%0A*Gracias por su pedido.*`;
         }
-
-
-        console.log(direccionMensaje)
-        console.log(direccion.trim().length)
-        console.log(direccionMensaje.replace("#","%23"))
+    
+        console.log(direccionMensaje);
+        console.log(direccion.trim().length);
+        console.log(direccionMensaje.replace("#", "%23"));
+    
+        // Eliminar el pedido del localStorage al finalizar
+        localStorage.removeItem('pedido');
+    
         location.href = `https://api.whatsapp.com/send?phone=3152918183&text=${mensaje}`;
     }
+    
 
 
 document.addEventListener('DOMContentLoaded', function () {

@@ -18,7 +18,8 @@
                         <p>{{$item->description}}</p>
                     </div>
                     <div class="buttons">
-                        @if ($item->has_size==1)
+                        <input type="hidden" value="{{$item->category->has_size}}" name="has_size">
+                        @if ($item->category->has_size==1)
                             <div class="size">
                                 <button class="size-button size-s" value={{$item->price_xs}}>XS</button>
                                 <button class="size-button size-m" value={{$item->price_s}}>S</button>
@@ -31,7 +32,6 @@
                                 <p class="precio price_size" value="0">Seleccione un tamaño</p>
                             </div>
                         @else
-                        <input type="hidden" value="{{$item->has_size}}" class="has_size">
                         <div class="precio-box price_wsize">
                             <input type="hidden" value="{{$item->price}}" class="precio_wsize">
                             <p class="precio">${{number_format($item->price,0,'.','.')}}</p>
@@ -112,11 +112,11 @@
             $('.price_size').html('$'+price_format);
             $('.price_size').val(precio);
         })
-         
+        
         function recogidaDatos(nombre){
             const tamaño = $('.size-button-active').text()
             const price_size = $('.price_size').val()
-            const has_size = $('has_size').val()
+            const has_size = $('input[name=has_size]')[0].value
             const price_wsize = $('.precio_wsize').val()
             let price = 0
 
@@ -126,6 +126,7 @@
                 price = price_wsize
             }
 
+            console.log(has_size)
             
             enviarDatos(nombre,tamaño,price,$('.totalProductos'));
         }
@@ -135,107 +136,6 @@
             hideCarrito()
         })
 
-        const btn_enviarPedido = document.querySelectorAll(".envio-pedido")
-    
-        const form_datosPedido = document.querySelector(".finalizar-cont form")
 
-        const text_transferencia = document.querySelector(".text-transf")
-
-        $('.envio-pedido').click(function(){
-                        let nombre = form_datosPedido[0].value
-                        let apellido = form_datosPedido[1].value
-    
-                        let nombreCompleto = `${nombre} ${apellido}`
-    
-                        let telefono = form_datosPedido[2].value
-    
-                        let direccion = form_datosPedido[3].value.toLowerCase()
-
-                        let barrio = form_datosPedido[4].value.toLowerCase()
-    
-                        let detalles = form_datosPedido[5].value
-    
-                        let radio_metodoPago = document.getElementsByName("metodoPago")
-    
-                        let metodoPago;
-    
-                        
-    
-                        for (let i = 0; i < radio_metodoPago.length; i++) {
-                            if (radio_metodoPago[i].checked) {
-                                metodoPago = radio_metodoPago[i].value
-                            }
-                        }
-    
-                        if ((nombre == "") || (apellido == "") || (direccion == "") || (barrio == "") || (telefono == "")) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: 'Ingrese todos los Campos!',
-                                iconColor: "#fa2d1e",
-                                confirmButtonColor: "#fa2d1e",
-                                timer: 3000
-                            });
-                        } else {
-                            if (telefono.length != 10) {
-                                console.log(telefono.length)
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: 'Ingrese un Telefono Valido!',
-                                    iconColor: "#fa2d1e",
-                                    confirmButtonColor: "#fa2d1e",
-                                    timer: 3000
-                                });
-                            } else {
-                                if ((direccion.includes("cra")) || (direccion.includes("kr")) || (direccion.includes("k")) || (direccion.includes("calle")) || (direccion.includes("c")) || (direccion.includes("cll"))) {
-    
-                                    if (metodoPago != undefined) {
-                                        // Seccion de Envio de datos despues de verificacion
-                                        Swal.fire({
-                                            title: "Estas Seguro de Enviar Tu pedido ?",
-                                            text: "Verifica que los datos esten ingresados correctamente",
-                                            icon: "warning",
-                                            showCancelButton: true,
-                                            confirmButtonColor: "#fa2d1e",
-                                            confirmButtonText: "Confirmar"
-                                        }).then((result) => {
-                                            if (result.isConfirmed) {
-                                                if (metodoPago == "transferencia") {
-                                                    Swal.fire({
-                                                        text: "Para despachar su pedido primero debe enviar el comprobante de pago",
-                                                        icon: "info",
-                                                        showConfirmButton: false,
-                                                        timer: 1500
-                                                    })
-                                                }
-                                                enviarPedido(nombreCompleto, direccion,barrio, telefono, detalles,metodoPago)
-                                            }
-                                        });
-                                    } else {
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Oops...',
-                                            text: 'Escoja un Metodo de Pago',
-                                            iconColor: "#fa2d1e",
-                                            confirmButtonColor: "#fa2d1e",
-                                            timer: 3000
-                                        });
-                                    }
-    
-                                } else {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: 'Oops...',
-                                        text: 'Ingrese una Direccion Valida!',
-                                        iconColor: "#fa2d1e",
-                                        confirmButtonColor: "#fa2d1e",
-                                        timer: 3000
-                                    });
-                                    console.log(direccion)
-                                }
-                            }
-                        }
-        })
     </script>
 @endsection

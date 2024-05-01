@@ -36,8 +36,8 @@ header("Access-Control-Allow-Methods: GET");
 
     <div class="carrito-cont">
         <h2>Carrito de compras</h2>
+        <p class='text-red'>No hay Productos Agregados Al carrito</p>
         <div class="productos-cont">
-            <p class='text-red'>No hay Productos Agregados Al carrito</p>
         </div>
         <div class="footer-carrito">
             <div class="total-cont">
@@ -85,7 +85,7 @@ header("Access-Control-Allow-Methods: GET");
                 </div>
             </div>
         </form>
-        <button class="envio-pedido">Enviar</button>
+        <button class="envio-pedido" onclick="datosUsuario()">Enviar</button>
     </div>
     
     <div class="contenedor">        

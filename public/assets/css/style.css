@@ -181,7 +181,9 @@ header .totalProductos{
 
 .carrito-cont .productos-cont .box-product .product-details .product-info{
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: start;
+    gap: 15px;
     justify-content: space-between;
     width: 60%;
 }
