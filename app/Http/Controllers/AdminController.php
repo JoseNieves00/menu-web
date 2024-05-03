@@ -45,7 +45,7 @@ class AdminController extends Controller
                     'last_name' => $user->last_name,
                     'username' => $user->username
                 ]);
-                return redirect()->route('admin/product');
+                return redirect()->route('listCategorys');
             }else{
                 $message = "Credenciales invalidas";
                 session()->flash('message_credentials_invalid', $message);

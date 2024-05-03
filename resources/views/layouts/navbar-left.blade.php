@@ -12,7 +12,7 @@
     <!--navigation-->
     <ul class="metismenu" id="menu">
         <li>
-            <a href="{{ route('admin/product') }}">
+            <a href="{{ route('listCategorys') }}">
                 <div class="parent-icon"><i class="bx bx-list-ol"></i>
                 </div>
                 <div class="menu-title">Categorias</div>

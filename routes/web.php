@@ -21,12 +21,12 @@ Route::any('admin', [AdminController::class, 'login'])->name('admin');
 Route::get('logout', [AdminController::class, 'logout'])->name('logout');
 
 
-Route::any('admin/product', [AdminController::class, 'listCategorys'])->name('admin/product');
+Route::any('admin/categorys', [AdminController::class, 'listCategorys'])->name('listCategorys');
 Route::any('admin/product/{category_product}', [AdminController::class, 'getProducts'])->name('getProducts');
-Route::any('admin/product/{category_product}/edit', [AdminController::class, 'editCategory'])->name('editCategory');
+Route::any('admin/{category_product}/edit', [AdminController::class, 'editCategory'])->name('editCategory');
 Route::any('admin/product/edit/{id}', [AdminController::class, 'editProduct'])->name('editProduct');
 Route::any('admin/product/{category_product}/create', [AdminController::class, 'createProduct'])->name('createProduct');
-Route::any('admin/product/create/category_product', [AdminController::class, 'createCategory'])->name('createCategory');
+Route::any('admin/category_product/create', [AdminController::class, 'createCategory'])->name('createCategory');
 
 
 Route::get('admin/category_product', [AdminController::class, 'listCategoryProduct'])->name('admin/category_product');
