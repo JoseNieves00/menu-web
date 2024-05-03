@@ -14,6 +14,8 @@ class CategoryProduct extends Model
     protected $fillable = [
         'name',
         'description',
+        'is_principal',
+        'has_size',
         'state',
     ];
 }

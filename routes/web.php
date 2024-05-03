@@ -17,16 +17,19 @@ use App\Http\Controllers\AdminController;
 Route::get('/', [AdminController::class, 'index'])->name('/');
 Route::any('/categorias/{category_products}', [AdminController::class, 'getCategoryProducts'])->name('getCategoryProducts');
 
-
-Route::post('get_products', [AdminController::class, 'getProducts'])->name('get_products');
-
 Route::any('admin', [AdminController::class, 'login'])->name('admin');
 Route::get('logout', [AdminController::class, 'logout'])->name('logout');
 
 
-Route::get('admin/product', [AdminController::class, 'listProducts'])->name('admin/product');
-Route::any('admin/product/create', [AdminController::class, 'createProduct'])->name('admin/product/create');
+Route::any('admin/product', [AdminController::class, 'listCategorys'])->name('admin/product');
+Route::any('admin/product/{category_product}', [AdminController::class, 'getProducts'])->name('getProducts');
+Route::any('admin/product/{category_product}/edit', [AdminController::class, 'editCategory'])->name('editCategory');
+Route::any('admin/product/edit/{id}', [AdminController::class, 'editProduct'])->name('editProduct');
+Route::any('admin/product/{category_product}/create', [AdminController::class, 'createProduct'])->name('createProduct');
+Route::any('admin/product/create/category_product', [AdminController::class, 'createCategory'])->name('createCategory');
+
 
 Route::get('admin/category_product', [AdminController::class, 'listCategoryProduct'])->name('admin/category_product');
+Route::any('admin/downloadImage/{model}/{id}', [AdminController::class, 'downloadFile'])->name('admin/downloadImage');
 
 

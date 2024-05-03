@@ -13,59 +13,83 @@
                                     <input type="text" class="form-control" id="name" name="name">
                                 </div>
                             </div>
+                            <input type="hidden" value="{{$category->has_size}}" name="has_size">
 
-                            <div class="col-lg-4 col-md-4 col-sm-12">
-                                <div class="form-group">
-                                    <label><b>Precio *</b></label>
-                                    <input type="number" class="form-control" id="price" name="price">
+                            @if ($category->has_size==1)
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label><b>Precio XS *</b></label>
+                                        <input type="number" class="form-control" id="price_xs" name="price_xs">
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="col-lg-4 col-md-4 col-sm-12">
-                                <div class="form-group">
-                                    <label><b>Categoría *</b></label>
-                                    <select class="form-control" name="id_product_category" id="id_product_category">
-                                        <option value="">Seleccione...</option>
-                                        @foreach ($list_category_product as $item)
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label><b>Precio S *</b></label>
+                                        <input type="number" class="form-control" id="price_s" name="price_s">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label><b>Precio M *</b></label>
+                                        <input type="number" class="form-control" id="price_m" name="price_m">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label><b>Precio L *</b></label>
+                                        <input type="number" class="form-control" id="price_l" name="price_l">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label><b>Precio XL *</b></label>
+                                        <input type="number" class="form-control" id="price_xl" name="price_xl">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label><b>Categoría *</b></label>
+                                        <select class="form-control" name="id_product_category" id="id_product_category">
+                                            <option value="">Seleccione...</option>
+                                            @foreach ($list_categorys as $item)
+                                            @if ($category->name == $item->name)
+                                                <option selected value="{{ $item->has_size }}" style="text-transform: capitalize">{{ $item->name }}</option>    
+                                            @else
                                             <option value="{{ $item->has_size }}" style="text-transform: capitalize">{{ $item->name }}</option>
-                                        @endforeach
-                                    </select>
+                                            @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                        </div><br>
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-12">
-                                <div class="form-group">
-                                    <label><b>¿Cuenta con televisión?</b></label>
-                                    <select class="form-control" name="has_tv" id="has_tv">
-                                        <option value="">Seleccione...</option>
-                                        <option value="1">Si</option>
-                                        <option value="0">No</option>
-                                    </select>
+                            @else
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label><b>Precio *</b></label>
+                                        <input type="number" class="form-control" id="price" name="price">
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="col-lg-4 col-md-4 col-sm-12">
-                                <div class="form-group">
-                                    <label><b>¿Cuenta con ducha?</b></label>
-                                    <select class="form-control" name="has_shower" id="has_shower">
-                                        <option value="">Seleccione...</option>
-                                        <option value="1">Si</option>
-                                        <option value="0">No</option>
-                                    </select>
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label><b>Categoría *</b></label>
+                                        <select class="form-control" name="id_product_category" id="id_product_category">
+                                            <option value="">Seleccione...</option>
+                                            @foreach ($list_categorys as $item)
+                                            @if ($category->name == $item->name)
+                                                <option selected value="{{ $item->has_size }}" style="text-transform: capitalize">{{ $item->name }}</option>    
+                                            @else
+                                            <option value="{{ $item->has_size }}" style="text-transform: capitalize">{{ $item->name }}</option>
+                                            @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-4 col-sm-12">
-                                <div class="form-group">
-                                    <label><b>¿Cuenta con WiFi?</b></label>
-                                    <select class="form-control" name="has_wifi" id="has_wifi">
-                                        <option value="">Seleccione...</option>
-                                        <option value="1">Si</option>
-                                        <option value="0">No</option>
-                                    </select>
-                                </div>
-                            </div>
+                            @endif
                         </div><br>
 
                         <div class="row">
@@ -101,7 +125,9 @@
 @section('scripts')
     <script>
         function validate() {
-            let name = $("#name").val()
+            let has_size = $("input[name=has_size]").val()
+            if(has_size==0){
+                let name = $("#name").val()
             let price = $("#price").val()
             let id_product_category = $("#id_product_category").val()
 
@@ -121,6 +147,32 @@
             }
 
             $("#frm_create_product").submit()
+            } else{
+                let name = $("#name").val()
+                let price_xs = $("#price_xs").val()
+                let price_s = $("#price_s").val()
+                let price_m = $("#price_m").val()
+                let price_l = $("#price_l").val()
+                let price_xl = $("#price_xl").val()
+                let id_product_category = $("#id_product_category").val()
+
+                if($.trim(name) == ""){
+                    toastr.error("El nombre es requerido")
+                    return
+                }
+
+                if(($.trim(price_xs) == "")||($.trim(price_s) == "")||($.trim(price_m) == "")||($.trim(price_l) == "")||($.trim(price_xl) == "")){
+                    toastr.error("Los precios son requeridos")
+                    return
+                }
+
+                if($.trim(id_product_category) == ""){
+                    toastr.error("La categoría es requerida")
+                    return
+                }
+
+                $("#frm_create_product").submit()
+            }
         }
     </script>
 @endsection

@@ -15,7 +15,7 @@
             <a href="{{ route('admin/product') }}">
                 <div class="parent-icon"><i class="bx bx-list-ol"></i>
                 </div>
-                <div class="menu-title">Productos</div>
+                <div class="menu-title">Categorias</div>
             </a>
         </li>
     </ul>
