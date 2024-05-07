@@ -274,6 +274,7 @@ function getProducts(){
     }
 
     function mostrarPedido() {
+        actualizarNProductos()
         // Recuperar el objeto pedido del localStorage
         const pedidoString = localStorage.getItem('pedido');
         const pedido = JSON.parse(pedidoString);
@@ -434,7 +435,7 @@ function getProducts(){
 
         let barrio = form_datosPedido[4].value.toLowerCase()
 
-        let detalles = form_datosPedido[5].value
+        let observacion = form_datosPedido[5].value
 
         let radio_metodoPago = document.getElementsByName("metodoPago")
 
@@ -490,7 +491,7 @@ function getProducts(){
                                         timer: 1500
                                     })
                                 }
-                                enviarPedido(nombreCompleto, direccion,barrio, telefono, detalles,metodoPago)
+                                enviarPedido(nombreCompleto, direccion,barrio, telefono, observacion,metodoPago)
                             }
                         });
                     } else {
@@ -520,8 +521,8 @@ function getProducts(){
     }
     
 
-    function enviarPedido(nombreCompleto, direccion, barrio, telefono, detalles, metodoPago) {
-        console.log(nombreCompleto, direccion, barrio, telefono, detalles, metodoPago);
+    function enviarPedido(nombreCompleto, direccion, barrio, telefono, observacion, metodoPago) {
+        console.log(nombreCompleto, direccion, barrio, telefono, observacion, metodoPago);
     
         let pedidoMensaje = "";
     
@@ -558,8 +559,8 @@ function getProducts(){
     
         let totalFormat = new Intl.NumberFormat('de-DE').format(pedido.total);
     
-        if (detalles != "") {
-            mensaje = `*Pizza Station* %0A%0A*Nombre*: ${nombreCompleto} %0A%0A*Celular*: ${telefono} %0A%0A*Dirección*: "${direccionMensaje.toUpperCase()}"%0A%0A*Barrio*: "${barrio.toUpperCase()}"%0A%0A*Método de pago*: ${metodoPago.toUpperCase()} %0A%0A*Comentario*: ${detalles} %0A%0A*Pedido*: %0A%0A%20%20${pedidoMensaje} %0A*Total*: $ ${totalFormat} %0A%0A*Gracias por su pedido.*`;
+        if (observacion != "") {
+            mensaje = `*Pizza Station* %0A%0A*Nombre*: ${nombreCompleto} %0A%0A*Celular*: ${telefono} %0A%0A*Dirección*: "${direccionMensaje.toUpperCase()}"%0A%0A*Barrio*: "${barrio.toUpperCase()}"%0A%0A*Método de pago*: ${metodoPago.toUpperCase()} %0A%0A*Comentario*: ${observacion} %0A%0A*Pedido*: %0A%0A%20%20${pedidoMensaje} %0A*Total*: $ ${totalFormat} %0A%0A*Gracias por su pedido.*`;
         } else {
             mensaje = `*Pizza Station* %0A%0A*Nombre*: ${nombreCompleto} %0A%0A*Celular*: ${telefono} %0A%0A*Dirección*: "${direccionMensaje.toUpperCase()}"%0A%0A*Barrio*: "${barrio.toUpperCase()}"%0A%0A*Método de pago*: ${metodoPago.toUpperCase()} %0A%0A*Pedido*: %0A%0A%20%20${pedidoMensaje} %0A*Total*: $ ${totalFormat} %0A%0A*Gracias por su pedido.*`;
         }

@@ -111,7 +111,7 @@ header{
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 header button{
@@ -185,7 +185,7 @@ header .totalProductos{
     align-items: start;
     gap: 15px;
     justify-content: space-between;
-    width: 60%;
+    width: 75%;
 }
 
 .carrito-cont .productos-cont .box-product .product-details .product-btns{
@@ -418,12 +418,18 @@ transition: 0.2s;
 }
 
 .button-agregar .gg-cart{
+    --ggs: 2;
     filter: invert(1);
 }
 
 header .gg-close {
     /* This value will multiple the actual size  */
-    --ggs: 1.6;
+    --ggs: 2;
+}
+
+header .gg-shopping-cart {
+    /* This value will multiple the actual size  */
+    --ggs: 1.5;
 }
 
 .verify-cont{

@@ -12,7 +12,7 @@
             <div class="slider">
                 @foreach ($list_products as $item)
                 <div class="box">
-                    <div class="product" style="background-image: url('{{ asset('storage/files/products/'.$item->url_image) }}') "></div>
+                    <div class="product" style="background-image: url('{{ $item->url_image!=null ? asset('storage/files/products/'.$item->url_image) : asset('assets/img/logo.png')}}') "></div>
                     <p class="product-name">{{$item->name}}</p>
                     <div class="descripcion">
                         <p>{{$item->description}}</p>

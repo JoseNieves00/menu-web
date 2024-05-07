@@ -67,9 +67,9 @@ header("Access-Control-Allow-Methods: GET");
             <input type="text" class="direccion-inpt">
             <label for="ubicacion">Barrio: <span>*</span></label>
             <input type="text" class="direccion-inpt">
-            <label for="observacion-inpt">Detalle: </label>
+            <label for="observacion-inpt">Observaciones: </label>
             <textarea class="observacion-inpt" cols="30" rows="10"
-                placeholder="Casa / Apartamento / Etc"></textarea>
+                placeholder="Observaciones Pedido"></textarea>
             <label for="metodoPago">Metodo de Pago <span>*</span></label>
             <div style="display: flex;width: 100%;justify-content: space-around;">
                 <div class="efectivo-cont"

@@ -1,4 +1,4 @@
-    <p class="m-0">Logo - Pizza Station</p>
+    <a href="/" style="width: 85px"><img class="w-100" src="{{asset('assets/img/logo.png')}}" alt=""></a>
     <button class="carrito">
         <i class="gg-shopping-cart"></i>
         <p class="totalProductos"></p>
