@@ -11,6 +11,7 @@ const finalizar_cont = document.querySelector(".finalizar-cont")
 
 $(totalProductos).hide()
 
+
 $(finalizar_cont).hide()
 
 $(carrito).hide()
