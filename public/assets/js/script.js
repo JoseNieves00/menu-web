@@ -221,7 +221,12 @@ function getProducts(){
         
             let totalProducto = precio * cantidad;
             actualizarNProductos();
-            // Verificar si ya hay una pizza con el mismo nombre y tamaño en el pedido
+        
+
+            let pedidoString = localStorage.getItem('pedido');
+            
+            let pedido = pedidoString ? JSON.parse(pedidoString) : { productos: [], total: 0, totalProductos: 0 };
+
             if(tamaño){
                 let productoExistente = pedido.productos.findIndex(producto => producto.name === nombre && producto.size === tamaño);
                 if (productoExistente !== -1) {
@@ -247,7 +252,7 @@ function getProducts(){
             }
             pedido.total += totalProducto;
         
-            // Actualizar el localStorage con el pedido modificado
+
             localStorage.setItem('pedido', JSON.stringify(pedido));
         
             console.log("Total del pedido:", pedido.total);
