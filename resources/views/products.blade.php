@@ -111,8 +111,6 @@
             } else{
                 price = price_wsize
             }
-
-            console.log(has_size)
             
             enviarDatos(nombre,tamaño,price,$('.totalProductos'));
         }
