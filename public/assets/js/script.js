@@ -320,7 +320,7 @@ function hideCarrito(){
     
     
                         Swal.fire({
-                            title: "Estas seguro de eliminar este producto?",
+                            title: "Esta seguro de eliminar este producto?",
                             text: "Se eliminara de tu carrito",
                             icon: "warning",
                             showCancelButton: true,
