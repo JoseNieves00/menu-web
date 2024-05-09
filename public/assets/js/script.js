@@ -97,12 +97,6 @@ function hideCarrito(){
         cleanButton()    
     }
 
-    function scrollUp(){
-        window.scrollTo({
-            top: 0, behavior:'smooth'
-        });
-    }
-
     function rotatePizza(index) {
         boxes.forEach((box, i) => {
             if (i === index) {
@@ -116,7 +110,6 @@ function hideCarrito(){
     function showSlide(index) {
         slider.style.transform = `translateX(-${index * 100}%)`;
         rotatePizza(index);
-        scrollUp()
         // limpiarPrecios();
     }
 
