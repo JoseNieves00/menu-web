@@ -242,7 +242,7 @@ function hideCarrito(){
 
             localStorage.setItem('pedido', JSON.stringify(pedido));
             setTimeout(() => {
-                location.href = `/home`
+                location.href = `https://bksoluciones.com/menu_web/public/`
             }, "1000");
         }
         
@@ -388,7 +388,7 @@ function hideCarrito(){
                 actualizarSubtotal();
                 actualizarNProductos();
                 setTimeout(() => {
-                    location.href = "/home";
+                    location.href = "https://bksoluciones.com/menu_web/public/";
                 }, "1000");
             }
         }

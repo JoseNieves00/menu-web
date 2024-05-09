@@ -17,8 +17,6 @@ use App\Http\Controllers\AdminController;
 Route::get('/', [AdminController::class, 'index'])->name('/');
 Route::get('/home', [AdminController::class, 'index'])->name('home');
 
-Route::Redirect('/home', '/');
-
 Route::any('/categorias/{category_products}', [AdminController::class, 'getCategoryProducts'])->name('getCategoryProducts');
 
 Route::any('admin', [AdminController::class, 'login'])->name('admin');
