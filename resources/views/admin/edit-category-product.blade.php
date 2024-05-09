@@ -27,7 +27,7 @@
                             <div class="col-lg-3 col-md-3 col-sm-12">
                                 <div class="form-group">
                                     <label><b>¿Tiene Tamaño?</b></label>
-                                    <select name="is_principal" id="is_principal" class="form-control">
+                                    <select name="has_size" id="has_size" class="form-control">
                                         <option {{ $category->has_size == 0 ? 'selected' : '' }} value="0">No</option>
                                         <option {{ $category->has_size == 1 ? 'selected' : '' }} value="1">Si</option>
                                     </select>

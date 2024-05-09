@@ -11,6 +11,7 @@ header("Access-Control-Allow-Methods: GET");
 <html lang="en">
 
 <head>
+	<link rel="icon" href="{{ asset('assets/img/logo.png') }}" type="image/png" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pizzería Slider</title>
@@ -34,7 +35,7 @@ header("Access-Control-Allow-Methods: GET");
         @yield('header')
     </header>
 
-    <div class="carrito-cont">
+    <div class="carrito-cont mt-5">
         <h2>Carrito de compras</h2>
         <p class='text-red'>No hay Productos Agregados Al carrito</p>
         <div class="productos-cont">
@@ -93,9 +94,8 @@ header("Access-Control-Allow-Methods: GET");
     </div>
 
     <footer class="d-flex justify-content-center mt-2">
-        <p class="text-footer" style="color: lightgray; font-size:14px">© Pizza Station - 2024</p>
+        <p class="text-footer" style="color: lightgray; font-size:16px">© Pizza Station - 2024</p>
     </footer>
-
 
     <script
     src="https://code.jquery.com/jquery-3.7.1.min.js"

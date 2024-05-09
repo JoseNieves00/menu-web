@@ -105,7 +105,7 @@ class AdminController extends Controller
                 session()->flash('message_cg_product_error', $message);
             }
 
-            return redirect()->route('admin/product');
+            return redirect()->route('listCategorys');
         }
         return view('admin.create-category-product');
     }
@@ -123,19 +123,19 @@ class AdminController extends Controller
     
                 if($category->update()){
                     $message = "Categoria actualizada correctamente";
-                    session()->flash('message_cg_room_sucess', $message);
+                    session()->flash('message_cg_product_success', $message);
                 }else{
                     $message = "Ocurrió un error, intente nuevamente";
                     session()->flash('message_cg_product_error', $message);
                 }
     
-                return redirect()->route('admin/product');
+                return redirect()->route('listCategorys');
             }
             return view('admin.edit-category-product', compact(['category']));
         }else{
             $message = "El registro que intenta editar no existe";
             session()->flash('message_cg_product_error', $message);
-            return redirect()->route('admin/product');
+            return redirect()->route('listCategorys');
         }
     }
 
@@ -160,7 +160,7 @@ class AdminController extends Controller
                         Storage::makeDirectory($path_files_product, 0755);
                     }
 
-                    if($room->url_image != null){
+                    if($product->url_image != null){
                         Storage::delete($path_files_product.$product->url_image);
                     }
 
@@ -178,7 +178,7 @@ class AdminController extends Controller
                         Storage::put($path_files_product.$url, \File::get($file));
                     }
                     $message = "Producto actualizado correctamente";
-                    session()->flash('message_product_sucess', $message);
+                    session()->flash('message_product_success', $message);
                 }else{
                     $message = "Ocurrió un error, intente nuevamente";
                     session()->flash('message_product_error', $message);
@@ -192,7 +192,7 @@ class AdminController extends Controller
         }else{
             $message = "El producto que intenta editar no existe";
             session()->flash('message_product_error', $message);
-            return redirect()->route('admin/product');
+            return redirect()->route('listCategorys');
         }
     }
 
@@ -227,8 +227,8 @@ class AdminController extends Controller
                 if($file){
                     Storage::put($path_files_product.$url, \File::get($file));
                 }
-                $message = "Habitación registrada Correctamente";
-                session()->flash('message_product_sucess', $message);
+                $message = "Producto registrado Correctamente";
+                session()->flash('message_product_success', $message);
             }else{
                 $message = "Ocurrió un error, intente nuevamente";
                 session()->flash('message_product_error', $message);

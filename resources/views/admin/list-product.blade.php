@@ -4,7 +4,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title text-center">Listado de Categorias</h4>
+                    <h4 class="card-title text-center">Listado de Productos</h4>
 
                     @if (session('message_product_sucess'))
                         <div id="msg" class="alert alert-success" >

@@ -6,7 +6,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!--favicon-->
-	<link rel="icon" href="{{ asset('assets/images/favicon-32x32.png') }}" type="image/png" />
+	<link rel="icon" href="{{ asset('assets/img/logo.png') }}" type="image/png" />
 	<!--plugins-->
 	<link href="{{ asset('assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet" />
 	<link href="{{ asset('assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css') }}" rel="stylesheet" />
@@ -33,9 +33,9 @@
 						<div class="card mb-0">
 							<div class="card-body">
 								<div class="p-4">
-									<div class="mb-3 text-center">
+									{{-- <div class="mb-3 text-center">
 										<img src="assets/images/logo-icon.png" width="60" alt="" />
-									</div>
+									</div> --}}
 									<div class="text-center mb-4">
 										<h5 class="">Software</h5>
 										<p class="mb-0">Ingresa tus credenciales</p>

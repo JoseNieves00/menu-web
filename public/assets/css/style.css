@@ -17,6 +17,25 @@ body {
     flex-direction: column;
 }
 
+.carousel-control {
+    position: absolute;
+    top: 44%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .prev {
+    left: 10px;
+  }
+  
+  .next {
+    right: 10px;
+  }
+
 .filter{
     top: 0px;
     width: 100%;
@@ -165,7 +184,7 @@ header .totalProductos{
 }
 
 .carrito-cont .productos-cont .box-product{
-    width: 85%;
+    width: 90%;
     display: flex;
     justify-content: space-between;
     padding: 15px 20px;
@@ -273,6 +292,7 @@ transition: 0.2s;
     transition: 0.2s;
 }
 
+
 .slider-container {
     position: relative;
     overflow: hidden;
@@ -289,6 +309,7 @@ transition: 0.2s;
 }
 
 .slider {
+    position: relative;
     display: flex;
     transition: transform 0.5s ease;
     margin-bottom: 30%;
@@ -392,17 +413,9 @@ transition: 0.2s;
 
 }
 
-.controls {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    display: flex;
-    gap: 25px;
-    transform: translateX(-50%);
-}
 
-.controls button {
-    padding: 10px 20px;
+.carousel-control {
+    padding: 8px 15px;
     background-color: #fa2d1e;
     color: white;
     border-radius: 15px;
@@ -411,7 +424,7 @@ transition: 0.2s;
     transition: background-color 0.3s;
 }
 
-.controls button:hover {
+.carousel-control:hover {
     background:transparent;
     color: #fa2d1e;
     border-radius: 15px;
@@ -502,22 +515,4 @@ header .gg-shopping-cart {
     width: 40px;
     height: 16px;
     cursor: pointer;
-}
-
-.boton-cantidad{
-    background: transparent;
-    border: 1px solid #fa2d1e;
-    padding: 5px 9px;
-    border-radius: 5px;
-    color: #fa2d1e;
-    font-size: 15px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.boton-cantidad:hover{
-    background-color: #de1a0c !important;
-    color: white !important;
-    border-color: #de1a0c;
-    transition: 0.3s;
 }

@@ -79,7 +79,7 @@
                                         <label><b>Categoría *</b></label>
                                         <select class="form-control" name="id_product_category" id="id_product_category">
                                             <option value="">Seleccione...</option>
-                                            @foreach ($list_categorys as $item)
+                                            @foreach ($list_category_product as $item)
                                             @if ($category->name == $item->name)
                                                 <option selected value="{{ $item->has_size }}" style="text-transform: capitalize">{{ $item->name }}</option>    
                                             @else

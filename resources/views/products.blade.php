@@ -3,7 +3,7 @@
     @include('header')
 @endsection
 @section('content')
-<div class="slider-container">
+<div class="slider-container mt-4">
     @csrf
     <h2>Desliza y escoge lo que mas te guste!</h2>
 
@@ -44,54 +44,40 @@
             </div>
         </div>
     </div>
-    <div class="controls">
-        <button class="prev" onclick="prevSlide()"><i class="gg-arrow-left-r"></i></button>
+        <button class="prev carousel-control" onclick="prevSlide()"><i class="gg-arrow-left-r"></i></button>
 
-        <button class="next" onclick="nextSlide()"><i class="gg-arrow-right-r"></i></button>
-    </div>
-                    {{-- <div class="box">
-                    <div class="pizza pizza2"></div>
-                    <p class="pizza-name">Pizza 2</p>
-                    <div class="descripcion">
-                        <p>descripcion</p>
-                    </div>
-                    <div class="buttons">
-                        <div class="size">
-                            <button class="size-button size-s">S</button>
-                            <button class="size-button size-m">M</button>
-                            <button class="size-button size-l">L</button>
-                            <button class="size-button size-xl">XL</button>
-                        </div>
-                        <div class="precio-box">
-                            <p class="precio p2">Selecciona Un Tamaño</p>
-                        </div>
-                        <button class="button-agregar">Agregar al Carrito <i class="gg-shopping-cart"></i></button>
-                    </div>
-                </div>
-        
-                <div class="box">
-                    <div class="pizza pizza3"></div>
-                    <p class="pizza-name">Pizza 3</p>
-                    <div class="descripcion">
-                        <p>descripcion</p>
-                    </div>
-                    <div class="buttons">
-                        <div class="size">
-                            <button class="size-button size-s">S</button>
-                            <button class="size-button size-m">M</button>
-                            <button class="size-button size-l">L</button>
-                            <button class="size-button size-xl">XL</button>
-                        </div>
-                        <div class="precio-box">
-                            <p class="precio p3">Selecciona Un Tamaño</p>
-                        </div>
-                        <button class="button-agregar">Agregar al Carrito <i class="gg-shopping-cart"></i></button>
-                    </div>
-                </div> --}}
+        <button class="next carousel-control" onclick="nextSlide()"><i class="gg-arrow-right-r"></i></button>
 </div>
 @endsection
 @section('scripts')
     <script>
+
+    let startX = 0;
+    let isDragging = false;
+
+    slider.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        isDragging = true;
+    });
+
+    slider.addEventListener('touchmove', (e) => {
+        if (isDragging) {
+            const currentX = e.touches[0].clientX;
+            const diffX = startX - currentX;
+            if ((diffX > 12) || (diffX < -12)) {
+                if (diffX > 12) {
+                    nextSlide();
+                } else if (diffX < 12) {
+                    prevSlide();
+                }
+            }
+            isDragging = false;
+        }
+    });
+    
+    slider.addEventListener('touchend', () => {
+        isDragging = false;
+    });
 
         $('.salir-carrito').hide()
 
