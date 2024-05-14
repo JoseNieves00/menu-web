@@ -1,0 +1,60 @@
+.fc .fc-toolbar-title {
+    text-transform: uppercase;
+}
+
+.modal .modal-dialog .modal-content .modal-header{
+	padding: 10px !important;
+}
+
+.modal .modal-dialog .modal-content .modal-footer {
+    padding: 10px !important;
+}
+
+.modal .modal-dialog .modal-content .modal-body {
+    padding: 15px !important;
+}
+
+.input-group-prepend{
+	height: 34px !important;
+    border-color: transparent !important;
+    border-radius: 6px 0 0 6px !important;
+    background: transparent !important;
+    border-right: 1px solid #dee2e6 !important;
+}
+
+.input-group-prepend > .input-group-text{
+	border-color: transparent !important;
+    border-right: 1px solid #dee2e6 !important;
+    background: transparent !important;
+    height: 100% !important;
+}
+
+th>.fc-scrollgrid-sync-inner{
+    background-color: #DC3545 !important;
+}
+
+th>div>.fc-col-header-cell-cushion{
+    color: #fff !important;
+    text-decoration : none !important;
+    text-transform: capitalize !important;
+}
+
+td>div>div>a.fc-daygrid-day-number{
+    color: #DC3545 !important;
+    text-decoration : none !important;
+}
+
+th>div>a.fc-list-day-text{
+    color: #DC3545 !important;
+    text-decoration : none !important;
+}
+
+th>div>a.fc-list-day-side-text{
+    color: #DC3545 !important;
+    text-decoration : none !important;
+    text-transform: capitalize !important;
+}
+
+td>div.fc-daygrid-day-frame{
+    cursor: pointer !important;
+}

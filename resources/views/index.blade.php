@@ -31,12 +31,6 @@
 @section('scripts')
     <script>
 
-        function goHome(){
-            setTimeout(() => {
-                location.href = "{{config('global.server')}}";
-            }, "1000");
-        }
-
         $('.salir-carrito').hide()
 
         $('.carrito').click(function(){

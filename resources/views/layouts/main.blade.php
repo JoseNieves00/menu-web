@@ -1,3 +1,15 @@
+@php
+    $user = \App\Models\User::find(session('id'));
+@endphp
+@if ($user == null)
+    <script>
+        location.href = '{{ route("admin") }}'
+    </script>
+    @php
+        die();
+    @endphp
+@endif
+
 <!doctype html>
 <html lang="en">
 

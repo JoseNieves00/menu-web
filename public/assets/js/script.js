@@ -37,6 +37,10 @@ function cleanButton() {
 })
 }
 
+function resetPrice(){
+    $('.price_size').val('')
+}
+
 // slider.addEventListener('touchstart', (e) => {
 //     startX = e.touches[0].clientX;
 //     isDragging = true;
@@ -81,21 +85,24 @@ function hideCarrito(){
     finalizar_cont.style.display = "none"
 }
 
-    let currentIndex = 0;
 
-    function nextSlide() {
-        currentIndex = (currentIndex + 1) % boxes.length;
-        showSlide(currentIndex);
-        limpiarPrecios()
-        cleanButton()
-    }
+let currentIndex = 0;
 
-    function prevSlide() {
-        currentIndex = (currentIndex - 1 + boxes.length) % boxes.length;
-        showSlide(currentIndex);
-        limpiarPrecios()
-        cleanButton()    
-    }
+function nextSlide() {
+    currentIndex = (currentIndex + 1) % boxes.length;
+    showSlide(currentIndex);
+    limpiarPrecios()
+    cleanButton()
+    resetPrice()
+}
+
+function prevSlide() {
+    currentIndex = (currentIndex - 1 + boxes.length) % boxes.length;
+    showSlide(currentIndex);
+    limpiarPrecios()
+    cleanButton()
+    resetPrice()
+}
 
     function rotatePizza(index) {
         boxes.forEach((box, i) => {
@@ -113,9 +120,9 @@ function hideCarrito(){
         // limpiarPrecios();
     }
 
-    function enviarDatos(nombreProduct,sizeProduct,precioProduct) {
+    function enviarDatos(nombreProduct,sizeProduct,precio) {
             let cantidadInput = 1;
-            if (precioProduct != '') {
+            if (precio != '') {
                 Swal.fire({
                     title: `${nombreProduct.toUpperCase()}`,
                     html:
