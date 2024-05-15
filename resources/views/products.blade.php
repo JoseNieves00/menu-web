@@ -21,11 +21,25 @@
                         <input type="hidden" value="{{$item->category->has_size}}" name="has_size">
                         @if ($item->category->has_size==1)
                             <div class="size">
-                                <button class="size-button size-s" value={{$item->price_xs}}>XS</button>
-                                <button class="size-button size-m" value={{$item->price_s}}>S</button>
-                                <button class="size-button size-l" value={{$item->price_m}}>M</button>
-                                <button class="size-button size-xl" value={{$item->price_l}}>L</button>
-                                <button class="size-button size-xl" value={{$item->price_xl}}>XL</button>
+                                @if ($item->price_xs!=null)
+                                    <button class="size-button size-xs" value={{$item->price_xs}}>XS</button>
+                                @endif
+
+                                @if ($item->price_s!=null)
+                                    <button class="size-button size-s" value={{$item->price_s}}>S</button>
+                                @endif
+
+                                @if ($item->price_m!=null)
+                                    <button class="size-button size-m" value={{$item->price_m}}>M</button>
+                                @endif
+
+                                @if ($item->price_l!=null)
+                                    <button class="size-button size-l" value={{$item->price_l}}>L</button>
+                                @endif
+
+                                @if ($item->price_m!=null)
+                                    <button class="size-button size-xl" value={{$item->price_xl}}>XL</button>
+                                @endif
                             </div>
 
                             <div class="precio-box">
