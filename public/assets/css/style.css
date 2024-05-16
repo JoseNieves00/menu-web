@@ -386,7 +386,9 @@ transition: 0.2s;
 .box .precio-box p{
     font-size: 18px;
     align-self: center;
+    min-height: 30px;
 }
+
 
 .box .precio-box span{
     color: #fa2d1e;

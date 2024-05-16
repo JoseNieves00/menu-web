@@ -30,6 +30,12 @@ Route::any('admin/product/edit/{id}', [AdminController::class, 'editProduct'])->
 Route::any('admin/product/{category_product}/create', [AdminController::class, 'createProduct'])->name('createProduct');
 Route::any('admin/category_product/create', [AdminController::class, 'createCategory'])->name('createCategory');
 
+Route::any('admin/toppings', [AdminController::class, 'listTopping'])->name('listTopping');
+Route::any('admin/toppings/create', [AdminController::class, 'createTopping'])->name('createTopping');
+Route::any('admin/toppings/{topping}/edit', [AdminController::class, 'editTopping'])->name('editTopping');
+
+
+
 
 Route::get('admin/category_product', [AdminController::class, 'listCategoryProduct'])->name('admin/category_product');
 Route::any('admin/downloadImage/{model}/{id}', [AdminController::class, 'downloadFile'])->name('admin/downloadImage');

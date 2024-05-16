@@ -17,6 +17,11 @@
                 </div>
                 <div class="menu-title">Categorias</div>
             </a>
+            <a href="{{ route('listTopping') }}">
+                <div class="parent-icon"><i class="bx bx-list-ol"></i>
+                </div>
+                <div class="menu-title">Toppings</div>
+            </a>
         </li>
     </ul>
     <!--end navigation-->

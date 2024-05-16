@@ -9,12 +9,15 @@ use Illuminate\Support\Facades\DB;
 use App\Models\CategoryProduct;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\ProductVersion;
+use App\Models\Toppings;
+
 
 
 class AdminController extends Controller
 {
     public function index() {
-        $list_category = CategoryProduct::where('state', 1)->where('is_principal',1)->get();
+        $list_category = CategoryProduct::where('state', 1)->get();
         return view('index', compact(['list_category']));
     }
 
@@ -30,7 +33,8 @@ class AdminController extends Controller
     public function getCategoryProducts($category_name) {
         $category = CategoryProduct::where('name', $category_name)->first();
         $list_products = Product::where('id_product_category',$category->id)->get();
-        return view('products', compact(['list_products']));
+        $list_versions = ProductVersion::where('id_product',$category->id)->get();
+        return view('products', compact(['list_products','list_versions']));
     }
 
     public function login(Request $request){
@@ -66,6 +70,11 @@ class AdminController extends Controller
             return view('admin.list-category-product', compact(['list_categorys']));
     }
 
+    public function listTopping() {
+        $list_topping = Toppings::where('state', 1)->get();
+        return view('admin.list-topping', compact(['list_topping']));
+}
+
     public function getProducts($category_name) {
         $category = CategoryProduct::where('name', $category_name)->first();
         $list_products = Product::where('id_product_category',$category->id)->get();
@@ -86,6 +95,29 @@ class AdminController extends Controller
         }
 
         return response()->download($pathtoFile);
+    }
+
+    public function createTopping(Request $request){
+        $data = $request->all();
+        if($data){
+            $data = (object) $data;
+            $new_topping = new Toppings;
+            $new_topping->fill($request->all());
+            $new_topping->state = 1;
+
+            $message = "";
+            if($new_topping->save()){
+                $message = "Topping Creado Correctamente";
+                session()->flash('message_cg_product_success', $message);
+            }else{
+                $message = "Ocurrió un error, intente nuevamente";
+                session()->flash('message_cg_product_error', $message);
+            }
+
+            return redirect()->route('listTopping');
+        }
+        $list_categorys = CategoryProduct::where('state', 1)->get();
+        return view('admin.create-topping', compact(['list_categorys']));
     }
 
     public function createCategory(Request $request){
@@ -136,6 +168,35 @@ class AdminController extends Controller
             $message = "El registro que intenta editar no existe";
             session()->flash('message_cg_product_error', $message);
             return redirect()->route('listCategorys');
+        }
+    }
+
+    public function editTopping(Request $request, $topping_name){
+        $topping = Toppings::where('name', $topping_name)->first();;
+        $message = "";
+        if($topping){
+            $data = $request->all();
+            if($data){
+                $data = (object) $data;
+                $topping->fill($request->all());
+                $topping->state = 1;
+    
+                if($topping->update()){
+                    $message = "Topping actualizado correctamente";
+                    session()->flash('message_cg_product_success', $message);
+                }else{
+                    $message = "Ocurrió un error, intente nuevamente";
+                    session()->flash('message_cg_product_error', $message);
+                }
+    
+                return redirect()->route('listTopping');
+            }
+            $list_categorys = CategoryProduct::where('state', 1)->get();
+            return view('admin.edit-topping', compact(['topping','list_categorys']));
+        }else{
+            $message = "El registro que intenta editar no existe";
+            session()->flash('message_cg_product_error', $message);
+            return redirect()->route('listTopping');
         }
     }
 

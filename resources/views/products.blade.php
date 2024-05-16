@@ -18,39 +18,15 @@
                         <p>{{$item->description}}</p>
                     </div>
                     <div class="buttons">
-                        <input type="hidden" value="{{$item->category->has_size}}" name="has_size">
-                        @if ($item->category->has_size==1)
-                            <div class="size">
-                                @if ($item->price_xs!=null)
-                                    <button class="size-button size-xs" value={{$item->price_xs}}>XS</button>
-                                @endif
-
-                                @if ($item->price_s!=null)
-                                    <button class="size-button size-s" value={{$item->price_s}}>S</button>
-                                @endif
-
-                                @if ($item->price_m!=null)
-                                    <button class="size-button size-m" value={{$item->price_m}}>M</button>
-                                @endif
-
-                                @if ($item->price_l!=null)
-                                    <button class="size-button size-l" value={{$item->price_l}}>L</button>
-                                @endif
-
-                                @if ($item->price_m!=null)
-                                    <button class="size-button size-xl" value={{$item->price_xl}}>XL</button>
-                                @endif
-                            </div>
-
-                            <div class="precio-box">
-                                <p class="precio price_size" value="0">Seleccione un tamaño</p>
-                            </div>
-                        @else
+                        <select name="select-versions" id="select-versions">
+                            <option value="0">Seleccione una version</option>
+                            @foreach ($list_versions as $item)
+                            <option value="{{$item->price}}">{{$item->name}}</option>
+                            @endforeach
+                        </select>
                         <div class="precio-box price_wsize">
-                            <input type="hidden" value="{{$item->price}}" class="precio_wsize">
-                            <p class="precio">${{number_format($item->price,0,'.','.')}}</p>
+                            <p class="precio"></p>
                         </div>
-                        @endif
                         <button class="button-agregar" onclick="recogidaDatos('{{$item->name}}')">Agregar al Carrito <i class="gg-shopping-cart"></i></button>
                     </div>
                 </div>
@@ -68,6 +44,18 @@
 
     let startX = 0;
     let isDragging = false;
+
+    $('#select-versions').on("change",function(){
+    let price = $('#select-versions').val();
+    let price_format = new Intl.NumberFormat('de-DE').format(price);
+
+    // Corrección aquí: selecciona el elemento correcto y establece el precio
+    if(price!=0){
+        $('.precio-box .precio').text('$' + price_format);
+    } else {
+        $('.precio-box .precio').text('');
+    }
+});
 
     slider.addEventListener('touchstart', (e) => {
         startX = e.touches[0].clientX;
