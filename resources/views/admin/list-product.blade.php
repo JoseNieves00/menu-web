@@ -29,54 +29,12 @@
                         </div>
                     </div><br><br>
                     <div class="table-responsive">
-                        @if ($category->has_size==1)
-                            <table class="table mb-0">
-                                <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Nombre</th>
-                                        <th>Descripcion</th>
-                                        <th>Precio XS</th>
-                                        <th>Precio S</th>
-                                        <th>Precio M</th>
-                                        <th>Precio L</th>
-                                        <th>Precio XL</th>
-                                        <th>Imagen</th>
-                                        <th class="text-center">...</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="bodytable">
-                                    @foreach ($list_products as $item)
-                                        <tr>
-                                            <td>{{ $item->id }}</td>
-                                            <td style="text-transform:capitalize;">{{ $item->name }}</td>
-                                            <td style="text-transform:capitalize;">{{ $item->description }}</td>
-                                            <td>${{ number_format($item->price_xs)}}</td>
-                                            <td>${{ number_format($item->price_s)}}</td>
-                                            <td>${{ number_format($item->price_m)}}</td>
-                                            <td>${{ number_format($item->price_l)}}</td>
-                                            <td>${{ number_format($item->price_xl)}}</td>
-                                            <td>@if ($item->url_image)
-                                                <a href="{{ route('admin/downloadImage', ['model' => 1, 'id' => $item->id]) }}" target="_blank">Descargar imagen</a></td>
-                                            @else
-                                                Sin imagen
-                                            @endif</td>
-                                            <td><center>
-                                                <a title="Editar" href="{{ route('editProduct', $item->id) }}"><i class="icono-feather" data-feather="edit"></i></a>
-                                            </center></td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                        </table>
-                            
-                        @else
                         <table class="table mb-0">
                             <thead>
                                 <tr>
                                     <th>Id</th>
                                     <th>Nombre</th>
                                     <th>Descripcion</th>
-                                    <th>Precio</th>
                                     <th>Imagen</th>
                                     <th class="text-center">...</th>
                                 </tr>
@@ -87,7 +45,6 @@
                                         <td>{{ $item->id }}</td>
                                         <td style="text-transform:capitalize;">{{ $item->name }}</td>
                                         <td style="text-transform:capitalize;">{{ $item->description }}</td>
-                                        <td>${{number_format($item->price,0,'.','.')}}</td>
                                         <td>@if ($item->url_image)
                                             <a href="{{ route('admin/downloadImage', ['model' => 1, 'id' => $item->id]) }}" target="_blank">Descargar imagen</a></td>
                                         @else
@@ -100,8 +57,6 @@
                                 @endforeach
                             </tbody>
                     </table>
-
-                        @endif
                     </div>
                 </div>
             </div>
