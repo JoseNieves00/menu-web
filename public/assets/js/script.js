@@ -4,7 +4,7 @@ const carrito = document.querySelector('.carrito-cont');
 const contenedor = document.querySelector('.contenedor');
 const footer_carrito = document.querySelector('.footer-carrito');
 const sizeButtons = document.querySelectorAll('.size button');
-const precio_size = document.querySelectorAll(".precio-box .price_size")
+const precio_box = document.querySelectorAll(".precio-box .precio")
 const totalProductos = document.querySelector(".totalProductos")
 const carrito_cont = document.querySelector(".carrito-cont")
 const finalizar_cont = document.querySelector(".finalizar-cont")
@@ -20,8 +20,8 @@ $(carrito).hide()
 actualizarNProductos()
 
 function limpiarPrecios(){
-    precio_size.forEach(precio => {
-        precio.innerHTML = "Selecciona Un Tamaño";
+    precio_box.forEach(precio => {
+        precio.innerHTML = "";
     });
 }
 
@@ -85,25 +85,6 @@ function hideCarrito(){
     finalizar_cont.style.display = "none"
 }
 
-
-let currentIndex = 0;
-
-function nextSlide() {
-    currentIndex = (currentIndex + 1) % boxes.length;
-    showSlide(currentIndex);
-    limpiarPrecios()
-    cleanButton()
-    resetPrice()
-}
-
-function prevSlide() {
-    currentIndex = (currentIndex - 1 + boxes.length) % boxes.length;
-    showSlide(currentIndex);
-    limpiarPrecios()
-    cleanButton()
-    resetPrice()
-}
-
     function rotatePizza(index) {
         boxes.forEach((box, i) => {
             if (i === index) {
@@ -120,11 +101,11 @@ function prevSlide() {
         // limpiarPrecios();
     }
 
-    function enviarDatos(nombreProduct,sizeProduct,precio) {
+    function enviarDatos(versionName,precio,nombre) {
             let cantidadInput = 1;
-            if (precio != '') {
+            if (versionName != '') {
                 Swal.fire({
-                    title: `${nombreProduct.toUpperCase()}`,
+                    title: `${nombre.toUpperCase()} / ${versionName.toUpperCase()}`,
                     html:
                         `<p>Ingresar Cantidad</p>` +
                         `<div class="input-group" style="display: flex;
@@ -156,11 +137,7 @@ function prevSlide() {
                 }).then((result) => {
                     if (result.isConfirmed) {
                         const cantidadProduct = result.value;
-                        if(sizeProduct!=undefined){
-                            confirmar(precioProduct, cantidadProduct, nombreProduct, sizeProduct);
-                        }else{
-                            confirmar(precioProduct, cantidadProduct, nombreProduct);
-                        }
+                        confirmar(precio, cantidadProduct, nombre, versionName);
                         limpiarPrecios()
                         cleanButton()
                     } else if (result.dismiss === Swal.DismissReason.cancel) {
@@ -191,7 +168,7 @@ function prevSlide() {
                 Swal.fire({
                     icon: "error",
                     title: "Opps...",
-                    text: "Seleccione un tamaño",
+                    text: "Seleccione una versión",
                     showConfirmButton: false,
                     timer: 1500
                 });
@@ -199,7 +176,7 @@ function prevSlide() {
         }
         let id_product=0;
 
-        function confirmar(precio, cantidad, nombre, tamaño) {
+        function confirmar(precio, cantidad, nombre, versionName) {
             Swal.fire({
                 icon: "success",
                 title: "Agregado!",
@@ -216,27 +193,15 @@ function prevSlide() {
             
             let pedido = pedidoString ? JSON.parse(pedidoString) : { productos: [], total: 0, totalProductos: 0 };
 
-            if(tamaño){
-                let productoExistente = pedido.productos.findIndex(producto => producto.name === nombre && producto.size === tamaño);
+                let productoExistente = pedido.productos.findIndex(producto => producto.version === versionName);
                 if (productoExistente !== -1) {
                     pedido.productos[productoExistente].cantidad += parseInt(cantidad);
                     pedido.productos[productoExistente].precio += parseInt(precio);
                 } else {
                     id_product+=1;
-                    pedido.productos.push({ id:id_product,name: nombre, size: tamaño, cantidad: parseInt(cantidad), precio: parseInt(precio) });
+                    pedido.productos.push({ id:id_product,name: nombre, cantidad: parseInt(cantidad), precio: parseInt(precio), version: versionName });
                     pedido.totalProductos += 1;
                 }
-            } else {
-                let productoExistente = pedido.productos.findIndex(producto => producto.name === nombre);
-                if (productoExistente !== -1) {
-                    pedido.productos[productoExistente].cantidad += parseInt(cantidad);
-                    pedido.productos[productoExistente].precio += parseInt(precio);
-                } else {
-                    id_product+=1;
-                    pedido.productos.push({ id:id_product,name: nombre, cantidad: parseInt(cantidad), precio: parseInt(precio) });
-                    pedido.totalProductos += 1;
-                }
-            }
             pedido.total += totalProducto;
         
 
@@ -293,7 +258,7 @@ function prevSlide() {
                     product_details.appendChild(product_info);
     
                     const name_product = document.createElement('p');
-                    name_product.textContent = `${productos.cantidad}X ${productos.name} ${productos.size == undefined ? '' : productos.size}`;
+                    name_product.textContent = `${productos.cantidad}X ${productos.name}  /  ${productos.version}`;
                     name_product.className = "product-name m-0";
                     product_info.appendChild(name_product);
     
@@ -509,7 +474,7 @@ function prevSlide() {
     
         pedido.productos.forEach(productos => {
             let precio_format = new Intl.NumberFormat('de-DE').format(productos.precio);
-            pedidoMensaje = pedidoMensaje + ` • ${productos.cantidad} x - ${productos.name.toUpperCase()} ${productos.size == undefined ? '' : productos.size.toUpperCase()} ($ ${precio_format})%0A`;
+            pedidoMensaje = pedidoMensaje + ` • ${productos.cantidad} x - ${productos.name.toUpperCase()}  /  ${productos.version.toUpperCase()} ($ ${precio_format})%0A`;
         });
     
         let direccionMensaje = "";

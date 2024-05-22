@@ -18,39 +18,21 @@
                         <p>{{$item->description}}</p>
                     </div>
                     <div class="buttons">
-                        <input type="hidden" value="{{$item->category->has_size}}" name="has_size">
-                        @if ($item->category->has_size==1)
-                            <div class="size">
-                                @if ($item->price_xs!=null)
-                                    <button class="size-button size-xs" value={{$item->price_xs}}>XS</button>
-                                @endif
-
-                                @if ($item->price_s!=null)
-                                    <button class="size-button size-s" value={{$item->price_s}}>S</button>
-                                @endif
-
-                                @if ($item->price_m!=null)
-                                    <button class="size-button size-m" value={{$item->price_m}}>M</button>
-                                @endif
-
-                                @if ($item->price_l!=null)
-                                    <button class="size-button size-l" value={{$item->price_l}}>L</button>
-                                @endif
-
-                                @if ($item->price_m!=null)
-                                    <button class="size-button size-xl" value={{$item->price_xl}}>XL</button>
-                                @endif
-                            </div>
-
-                            <div class="precio-box">
-                                <p class="precio price_size" value="0">Seleccione un tamaño</p>
-                            </div>
-                        @else
-                        <div class="precio-box price_wsize">
-                            <input type="hidden" value="{{$item->price}}" class="precio_wsize">
-                            <p class="precio">${{number_format($item->price,0,'.','.')}}</p>
+                        {!! Form::open(array('method' => 'POST', 'files' => true, 'id' => 'frm_create_topping')) !!}
+                            <input type="hidden" id="id_product" name="id_product"  value="{{$item->id}}">
+                            <input type="hidden" id="price" name="price"  value="">
+                            <input type="hidden" id="versionName" name="versionName"  value="">
+                            @csrf
+                        <select name="select-versions custom-select" id="select-versions">
+                            <option value="0">Seleccione una version</option>
+                            @foreach ($list_version as $item2)
+                            <option id="versionsOpt" value="{{$item2->price}}">{{$item2->name}}</option>
+                            @endforeach
+                        </select>
+                        {!! Form::close() !!}
+                        <div class="precio-box">
+                            <p class="precio"></p>
                         </div>
-                        @endif
                         <button class="button-agregar" onclick="recogidaDatos('{{$item->name}}')">Agregar al Carrito <i class="gg-shopping-cart"></i></button>
                     </div>
                 </div>
@@ -68,6 +50,63 @@
 
     let startX = 0;
     let isDragging = false;
+
+    const precio = document.querySelector('#price')
+    const versionName = document.querySelector('#versionName')
+
+    const selects = document.querySelectorAll('#select-versions');
+
+selects.forEach(select => {
+    select.addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        const versionName = selectedOption.textContent;
+        const versionPrice = selectedOption.value;
+        const precio = document.querySelector('.precio-box .precio');
+        const precio_inpt = document.querySelector('#price');
+        const versionName_inpt = document.querySelector('#versionName');
+
+        
+        const precioFormat = new Intl.NumberFormat('de-DE').format(versionPrice);
+        if(precioFormat>0){
+            precio.textContent = "$" + precioFormat;
+            nombreVersion = versionName
+            versionName_inpt.value = versionName
+            precio_inpt.value = versionPrice
+            console.log(versionName_inpt.value,precio_inpt.value)
+        } else {
+            precio.textContent = ""
+        }
+    });
+});
+
+    let currentIndex = 0;
+
+function nextSlide() {
+    currentIndex = (currentIndex + 1) % boxes.length;
+    showSlide(currentIndex);
+    limpiarSelects()
+    limpiarPrecios()
+    cleanButton()
+    // resetPrice()
+}
+
+function prevSlide() {
+    currentIndex = (currentIndex - 1 + boxes.length) % boxes.length;
+    showSlide(currentIndex);
+    limpiarSelects()
+    limpiarPrecios()
+    cleanButton()
+    // resetPrice()
+}
+
+function limpiarSelects() {
+    const selects = document.querySelectorAll("#select-versions");
+    selects.forEach(item => {
+        item.value = '0'; 
+    });
+    versionName.value= ""
+    precio.value = ""
+}
 
     slider.addEventListener('touchstart', (e) => {
         startX = e.touches[0].clientX;
@@ -98,36 +137,35 @@
         $('.carrito').click(function(){
             showCarrito()
         })
-
-        if($('.size').css("display")=="block"){
-            $('.wprice_size').hide()
-        }
-
-        $('.size-button').click(function(){
-            this.className = "size-button-active"
-            const nombre = $('.product-name').textContent;
-            const precio = this.value
-            const price_format = new Intl.NumberFormat('de-DE').format(precio)
-            const tamaño = this.textContent
-            $('.price_size').html('$'+price_format);
-            $('.price_size').val(precio);
-        })
         
         function recogidaDatos(nombre){
-            const tamaño = $('.size-button-active').text()
-            const price_size = $('.price_size').val()
-            const has_size = $('input[name=has_size]')[0].value
-            const price_wsize = $('.precio_wsize').val()
-            let price = 0
-
-            if(has_size==1){
-                price = price_size
-            } else{
-                price = price_wsize
-            }
-            
-            enviarDatos(nombre,tamaño,price,$('.totalProductos'));
+            enviarDatos(versionName.value,precio.value,nombre);
         }
+
+        // function getToppings(){            
+        //     const nombre = $('#versionsOpt').text();
+        //     const id_version = $('#versionsOpt').val()
+        //     let url_post = "{{config('global.server')}}/getToppings/"+id_version;
+        //     let token = $('input[name=_token]')[0].value
+
+
+        //     let request = {
+        //         "_token":token,
+        //         "name":nombre,
+        //         "id_version": id_version,
+        //     }
+
+        //     $.post(url_post,request,(response)=>{
+        //         if(!response.error){
+        //             console.log(response)
+        //         } else {
+        //             toastr.error(response.message)
+        //             return
+        //         }
+        //     })
+
+        //     enviarDatos(nombre,tamaño,precio);
+        // }
         
         
         $('.salir-carrito').click(function(){

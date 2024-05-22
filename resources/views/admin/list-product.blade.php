@@ -6,26 +6,26 @@
                 <div class="card-body">
                     <h4 class="card-title text-center">Listado de Productos</h4>
 
-                    @if (session('message_product_sucess'))
-                        <div id="msg" class="alert alert-success" >
-                            <p>{{session('message_product_sucess')}}</p>
-                        </div>
-                        <script>
-                            setTimeout(function(){ $('#msg').fadeOut() }, 4000);
-                        </script>
-                    @endif
-
-                    @if (session('message_product_error'))
-                        <div id="msg" class="alert alert-danger" >
-                            <p>{{session('message_product_error')}}</p>
-                        </div>
-                        <script>
-                            setTimeout(function(){ $('#msg').fadeOut() }, 4000);
-                        </script>
-                    @endif
+                    @if (session('message_product_success'))
+                    <div id="msg" class="alert alert-success" >
+                        <p>{{ session('message_product_success') }}</p>
+                    </div>
+                    <script>
+                        setTimeout(function(){ $('#msg').fadeOut() }, 4000);
+                    </script>
+                @endif
+                
+                @if (session('message_product_error'))
+                    <div id="msg" class="alert alert-danger" >
+                        <p>{{ session('message_product_error') }}</p>
+                    </div>
+                    <script>
+                        setTimeout(function(){ $('#msg').fadeOut() }, 4000);
+                    </script>
+                @endif
                     <div class="row">
                         <div class="col-sm-12 co-md-3 col-lg-3">
-                            <button class="w-100 btn btn-primary" onclick="location.href='{{ route('createProduct',$category->name) }}'">Nuevo Producto</button>
+                            <button class="w-100 btn btn-primary" onclick="location.href='{{ route('admin/product/create',$category) }}'">Nuevo Producto</button>
                         </div>
                     </div><br><br>
                     <div class="table-responsive">
@@ -94,7 +94,7 @@
                                             Sin imagen
                                         @endif</td>
                                         <td><center>
-                                            <a title="Editar" href="{{ route('editProduct', $item->id) }}"><i class="icono-feather" data-feather="edit"></i></a>
+                                            <a title="Editar" href="{{ route('admin/product/edit', $item->id) }}"><i class="icono-feather" data-feather="edit"></i></a>
                                         </center></td>
                                     </tr>
                                 @endforeach

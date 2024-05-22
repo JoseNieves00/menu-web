@@ -22,7 +22,7 @@
                 @foreach ($list_category as $item)
                 <div class="row">
                     <div class="categorias-cont p-0">
-                        <button class="btn w-100 p-2 fs-4 text text-capitalize" style="background-color: #fa2d1e;color:white" onclick="location.href='{{ route('getCategoryProducts', $item->name)}}'">{{$item->name}}</button>
+                        <button class="btn w-100 p-2 fs-4 text text-capitalize" style="background-color: #fa2d1e;color:white" onclick="location.href='{{ route('/categorias', $item->id)}}'">{{$item->name}}</button>
                     </div>
                 </div>
                 @endforeach

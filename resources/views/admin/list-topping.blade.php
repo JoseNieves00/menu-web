@@ -4,7 +4,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title text-center">Listado de Categorias</h4>
+                    <h4 class="card-title text-center">Listado de Toppings</h4>
 
                     @if (session('message_cg_product_success'))
                         <div id="msg" class="alert alert-success" >
@@ -24,7 +24,7 @@
                         </script>
                     @endif
                     <div class="col-sm-12 co-md-3 col-lg-3">
-                        <button class="w-100 btn btn-primary" onclick="location.href='{{ route('createCategory') }}'">Nueva Categoria</button>
+                        <button class="w-100 btn btn-primary" onclick="location.href='{{ route('admin/toppings/create') }}'">Nuevo Topping</button>
                     </div><br>
                     <div class="table-responsive">
                         <table class="table mb-0">
@@ -32,20 +32,18 @@
                                 <tr>
                                     <th>Id</th>
                                     <th>Nombre</th>
-                                    <th>Descripcion</th>
-                                    <th >Ver Productos</th>
+                                    <th>Precio</th>
                                     <th class="text-center">...</th>
                                 </tr>
                             </thead>
                             <tbody id="bodytable">
-                                @foreach ($list_categorys as $item)
+                                @foreach ($list_topping as $item)
                                     <tr>
                                         <td>{{ $item->id }}</td>
                                         <td style="text-transform:capitalize;">{{ $item->name }}</td>
-                                        <td style="text-transform:capitalize;">{{ $item->description }}</td>
-                                        <td style="text-transform:capitalize;"><a href="{{route('admin/products',$item->id)}}">Ver Productos</a></td>
+                                        <td>${{number_format($item->price,0,'.','.')}}</td>
                                         <td><center>
-                                            <a title="Editar" href="{{ route('admin/category/edit', $item->id) }}"><i class="icono-feather" data-feather="edit"></i></a>
+                                            <a title="Editar" href="{{ route('admin/toppings/edit', $item->id) }}"><i class="icono-feather" data-feather="edit"></i></a>
                                         </center></td>
                                     </tr>
                                 @endforeach

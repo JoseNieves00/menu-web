@@ -16,6 +16,5 @@
 <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="{{ asset('js/main.js') }}"></script>
 <script src="{{ asset('js/toastr.min.js') }}"></script>
 <script src="{{ asset('js/toast.js') }}"></script>
